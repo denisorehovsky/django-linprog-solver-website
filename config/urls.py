@@ -19,7 +19,8 @@ urlpatterns = [
     url(r'^users/', include('linprog_solver.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
+    # Simplex method
+    url(r'^simplex/', include('linprog_solver.simplex.urls', namespace='simplex')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

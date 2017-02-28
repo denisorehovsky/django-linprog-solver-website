@@ -56,9 +56,8 @@ THIRD_PARTY_APPS = [
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
-    # custom users app
     'linprog_solver.users.apps.UsersConfig',
-    # Your stuff: custom apps go here
+    'linprog_solver.simplex.apps.SimplexConfig',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
