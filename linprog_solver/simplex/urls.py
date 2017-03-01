@@ -10,4 +10,9 @@ urlpatterns = [
         view=views.SimplexInitView.as_view(),
         name='init'
     ),
+    url(
+        regex=r'^solve/$',
+        view=views.SimplexSolveView.as_view(),
+        name='solve'
+    ),
 ]
