@@ -1,8 +1,12 @@
-from django.http import HttpResponse
-from django.views.generic import View
+from django.views.generic import TemplateView
+
+from .forms import SimplexInitForm
 
 
-class SimplexInitView(View):
+class SimplexInitView(TemplateView):
+    template_name = 'simplex/simplex_init.html'
 
     def get(self, request, *args, **kwargs):
-        return HttpResponse('Init')
+        context = self.get_context_data(**kwargs)
+        context['form'] = SimplexInitForm()
+        return self.render_to_response(context)
