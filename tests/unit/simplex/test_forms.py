@@ -1,6 +1,10 @@
+from django.forms.fields import FloatField
+
 from test_plus.test import TestCase
 
-from linprog_solver.simplex.forms import SimplexInitForm
+from linprog_solver.simplex.forms import (
+    SimplexInitForm, SimplexCoefficientsForm
+)
 
 
 class TestSimplexInitForm(TestCase):
@@ -27,3 +31,20 @@ class TestSimplexInitForm(TestCase):
         form = SimplexInitForm()
         self.assertEqual(form.fields['is_non_negative'].initial, True)
         self.assertEqual(form.fields['is_non_negative'].required, False)
+
+
+class TestSimplexCoefficientsForm(TestCase):
+
+    def test_coefficient_float_fields(self):
+        form = SimplexCoefficientsForm(coefficients_number=4)
+        for i in range(1, 5):
+            key = 'coefficient_{}'.format(i)
+            self.assertIsInstance(form.fields[key], FloatField)
+
+    def test_tendency_choice_field(self):
+        form = SimplexCoefficientsForm(coefficients_number=4)
+        self.assertEqual(form.fields['tendency'].initial, 'max')
+        self.assertEqual(
+            form.fields['tendency'].choices,
+            [('max', 'max'), ('min', 'min')]
+        )
