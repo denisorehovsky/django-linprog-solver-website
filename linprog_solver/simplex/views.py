@@ -1,15 +1,11 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 
 from .forms import SimplexInitForm
 
 
-class SimplexInitView(TemplateView):
+class SimplexInitView(FormView):
     template_name = 'simplex/simplex_init.html'
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        context['form'] = SimplexInitForm()
-        return self.render_to_response(context)
+    form_class = SimplexInitForm
 
 
 class SimplexSolveView(TemplateView):
