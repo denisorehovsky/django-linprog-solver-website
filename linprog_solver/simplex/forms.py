@@ -2,11 +2,11 @@ from django import forms
 
 
 class SimplexInitForm(forms.Form):
-    variables = forms.TypedChoiceField(
-        initial=3, choices=[(i, i) for i in range(1, 11)], coerce=int
+    variables = forms.ChoiceField(
+        initial=3, choices=[(i, i) for i in range(1, 11)]
     )
-    conditions = forms.TypedChoiceField(
-        initial=3, choices=[(i, i) for i in range(1, 11)], coerce=int
+    conditions = forms.ChoiceField(
+        initial=3, choices=[(i, i) for i in range(1, 11)]
     )
     is_non_negative = forms.BooleanField(initial=True, required=False)
 
