@@ -9,6 +9,23 @@ from linprog_solver.simplex.forms import (
 
 class TestSimplexInitForm(TestCase):
 
+    def test_save_form(self):
+        form = SimplexInitForm(data={
+            'variables': '2',
+            'conditions': '4',
+            'is_non_negative': False,
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_errors(self):
+        form = SimplexInitForm(data={
+            'tendency': 'max',
+            'variables': '15',
+            'conditions': '4'
+        })
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 1)
+
     def test_variables_choice_field(self):
         form = SimplexInitForm()
         self.assertEqual(form.fields['variables'].initial, 3)
@@ -35,7 +52,26 @@ class TestSimplexInitForm(TestCase):
 
 class TestSimplexCoefficientsForm(TestCase):
 
-    def test_coefficient_float_fields(self):
+    def test_save_form(self):
+        form = SimplexCoefficientsForm(variables=4, data={
+            'tendency': 'max',
+            'variable_1': '2',
+            'variable_2': '2.5',
+            'variable_3': '5',
+            'variable_4': '1',
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_errors(self):
+        form = SimplexCoefficientsForm(variables=3, data={
+            'tendency': 'max',
+            'variable_1': '2',
+            'variable_2': 'number',
+        })
+        self.assertFalse(form.is_valid())
+        self.assertTrue(len(form.errors), 2)
+
+    def test_variable_float_fields(self):
         form = SimplexCoefficientsForm(variables=4)
         for i in range(1, 5):
             key = 'variable_{}'.format(i)
