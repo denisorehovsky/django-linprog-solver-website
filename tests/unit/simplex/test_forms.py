@@ -14,13 +14,11 @@ class TestSimplexInitForm(TestCase):
         form = SimplexInitForm(data={
             'variables': '2',
             'conditions': '4',
-            'is_non_negative': False,
         })
         self.assertTrue(form.is_valid())
 
     def test_errors(self):
         form = SimplexInitForm(data={
-            'tendency': 'max',
             'variables': '15',
             'conditions': '4'
         })
@@ -44,11 +42,6 @@ class TestSimplexInitForm(TestCase):
             [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7),
              (8, 8), (9, 9), (10, 10)]
         )
-
-    def test_is_non_negative_boolean_field(self):
-        form = SimplexInitForm()
-        self.assertEqual(form.fields['is_non_negative'].initial, True)
-        self.assertEqual(form.fields['is_non_negative'].required, False)
 
 
 class TestSimplexSolveForm(TestCase):

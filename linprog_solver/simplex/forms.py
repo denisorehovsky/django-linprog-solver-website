@@ -11,7 +11,6 @@ class SimplexInitForm(forms.Form):
     conditions = forms.ChoiceField(
         initial=3, choices=[(i, i) for i in range(1, 11)]
     )
-    is_non_negative = forms.BooleanField(initial=True, required=False)
 
 
 class SimplexSolveForm(forms.Form):
