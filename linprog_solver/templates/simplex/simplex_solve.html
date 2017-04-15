@@ -2,5 +2,12 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-
+  <form class="form-horizontal" method="post" action="">
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn">{% trans "Solve" %}</button>
+      </div>
+    </div>
+  </form>
 {% endblock %}
