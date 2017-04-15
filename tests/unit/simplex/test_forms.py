@@ -117,3 +117,42 @@ class TestSimplexSolveForm(TestCase):
         for i in range(1, conditions + 1):
             key = 'cond_const_{}'.format(i)
             self.assertIsInstance(form.fields[key], FloatField)
+
+    def test_solve(self):
+        form = SimplexSolveForm(variables=3, conditions=4, data={
+            'func_coeff_1': '300', 'func_coeff_2': '250', 'func_coeff_3': '450', 'tendency': 'max',
+
+            'cond_coeff_1_1': '15', 'cond_coeff_1_2': '20', 'cond_coeff_1_3': '25',
+            'cond_operator_1': '<=', 'cond_const_1': '1200',
+
+            'cond_coeff_2_1': '35', 'cond_coeff_2_2': '60', 'cond_coeff_2_3': '60',
+            'cond_operator_2': '<=', 'cond_const_2': '3000',
+
+            'cond_coeff_3_1': '20', 'cond_coeff_3_2': '30', 'cond_coeff_3_3': '25',
+            'cond_operator_3': '<=', 'cond_const_3': '1500',
+
+            'cond_coeff_4_1': '0', 'cond_coeff_4_2': '250', 'cond_coeff_4_3': '0',
+            'cond_operator_4': '>=', 'cond_const_4': '500'
+        })
+        self.assertTrue(form.is_valid())
+        result = form.solve()
+        self.assertTrue(result['fun'], 23060.0)
+        self.assertTrue(list(result['x']), [56.0, 2, 12.8])
+
+        form = SimplexSolveForm(variables=3, conditions=3, data={
+            'func_coeff_1': '2', 'func_coeff_2': '1', 'func_coeff_3': '1', 'func_coeff_4': '4',
+            'tendency': 'min',
+
+            'cond_coeff_1_1': '1', 'cond_coeff_1_2': '-1', 'cond_coeff_1_3': '2', 'cond_coeff_1_4': '-1',
+            'cond_operator_1': '>=', 'cond_const_1': '4',
+
+            'cond_coeff_2_1': '2', 'cond_coeff_2_2': '1', 'cond_coeff_2_3': '-1', 'cond_coeff_2_4': '0',
+            'cond_operator_2': '<=', 'cond_const_2': '8',
+
+            'cond_coeff_3_1': '1', 'cond_coeff_3_2': '-1', 'cond_coeff_3_3': '-1', 'cond_coeff_3_4': '3',
+            'cond_operator_3': '=', 'cond_const_3': '3',
+        })
+        self.assertTrue(form.is_valid())
+        result = form.solve()
+        self.assertTrue(result['fun'], 7.0)
+        self.assertTrue(list(result['x']), [10 / 3, 0, 1 / 3])

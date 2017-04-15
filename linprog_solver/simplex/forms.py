@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from scipy.optimize import linprog
+
 from .exceptions import SimplexInitException
 
 
@@ -54,3 +56,35 @@ class SimplexSolveForm(forms.Form):
             for k in range(1, self.variables + 1):
                 cond_coeff = 'cond_coeff_{}_{}'.format(i, k)
                 self.fields[cond_coeff] = forms.FloatField()
+
+    def solve(self):
+        sign = 1 if self.cleaned_data['tendency'] == 'min' else -1
+        c = [self.cleaned_data['func_coeff_{}'.format(i)] * sign
+             for i in range(1, self.variables + 1)]
+
+        A_ub, A_eq, b_ub, b_eq = None, None, None, None
+        for i in range(1, self.conditions + 1):
+            operator = self.cleaned_data['cond_operator_{}'.format(i)]
+            if operator == '<=' or operator == '>=':
+                sign = 1 if operator == '<=' else -1
+                if b_ub is None:
+                    b_ub = []
+                if A_ub is None:
+                    A_ub = []
+                b_ub.append(sign * self.cleaned_data['cond_const_{}'.format(i)])
+                A_ub.append([sign * self.cleaned_data['cond_coeff_{}_{}'.format(i, k)]
+                             for k in range(1, self.variables + 1)])
+            else:
+                if b_eq is None:
+                    b_eq = []
+                if A_eq is None:
+                    A_eq = []
+                b_eq.append(self.cleaned_data['cond_const_{}'.format(i)])
+                A_eq.append([self.cleaned_data['cond_coeff_{}_{}'.format(i, k)]
+                             for k in range(1, self.variables + 1)])
+
+        result = linprog(c, A_ub, b_ub, A_eq, b_eq)
+        if self.cleaned_data['tendency'] == 'max':
+            result['fun'] = -result['fun']
+
+        return result
