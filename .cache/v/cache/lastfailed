@@ -1,1 +1,3 @@
-{}
+{
+  "tests/simplex/functional/test_simplex.py::TestSimplex::test_solve_linear_problem": true
+}
