@@ -1,6 +1,9 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Div, Submit
+
 from scipy.optimize import linprog
 
 from .exceptions import SimplexInitException
@@ -13,6 +16,17 @@ class SimplexInitForm(forms.Form):
     conditions = forms.ChoiceField(
         initial=3, choices=[(i, i) for i in range(1, 11)]
     )
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.disable_csrf = True
+        self.helper.layout = Layout(
+            Div(Field('variables'), css_class='col-md-offset-3 col-sm-3 col-md-2 text-center'),
+            Div(Field('conditions'), css_class='col-sm-3 col-md-2 text-center'),
+            Div(css_class='clearfix'),
+            Div(Submit('submit', _('Next step')), css_class='col-md-offset-3'),
+        )
+        super().__init__(*args, **kwargs)
 
 
 class SimplexSolveForm(forms.Form):

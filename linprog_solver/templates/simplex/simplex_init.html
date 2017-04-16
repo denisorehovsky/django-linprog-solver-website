@@ -3,11 +3,6 @@
 
 {% block content %}
   <form class="form-horizontal" method="get" action="{% url 'simplex:solve' %}">
-    {{ form|crispy }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn">{% trans "Next step" %}</button>
-      </div>
-    </div>
+    {% crispy form %}
   </form>
 {% endblock %}
