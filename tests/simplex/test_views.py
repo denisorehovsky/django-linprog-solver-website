@@ -26,7 +26,7 @@ class TestSimplexSolveView(TestCase):
         self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
         self.assertIsInstance(resp.context['form'], SimplexSolveForm)
 
-    def test_get_with_bad_data(self):
+    def test_get_with_incorrect_data_in_get_request(self):
         resp = self.get('simplex:solve', data={'variables': 'should_be_num',
                                                'conditions': 4})
         self.assertEqual(resp.status_code, 200)
@@ -40,3 +40,57 @@ class TestSimplexSolveView(TestCase):
         self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
         self.assertEqual(str(list(resp.context['messages'])[0]),
                          'The number of variables and conditions should be between 1 and 10')
+
+    def test_post(self):
+        resp = self.post('simplex:solve', data={
+            'variables': 3, 'conditions': 4,
+
+            'func_coeff_1': '300', 'func_coeff_2': '250', 'func_coeff_3': '450', 'tendency': 'max',
+
+            'cond_coeff_1_1': '15', 'cond_coeff_1_2': '20', 'cond_coeff_1_3': '25',
+            'cond_operator_1': '<=', 'cond_const_1': '1200',
+
+            'cond_coeff_2_1': '35', 'cond_coeff_2_2': '60', 'cond_coeff_2_3': '60',
+            'cond_operator_2': '<=', 'cond_const_2': '3000',
+
+            'cond_coeff_3_1': '20', 'cond_coeff_3_2': '30', 'cond_coeff_3_3': '25',
+            'cond_operator_3': '<=', 'cond_const_3': '1500',
+
+            'cond_coeff_4_1': '0', 'cond_coeff_4_2': '250', 'cond_coeff_4_3': '0',
+            'cond_operator_4': '>=', 'cond_const_4': '500'
+        })
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'simplex/simplex_result.html')
+        self.assertIn('result', resp.context)
+
+        resp = self.post('simplex:solve', data={
+            'variables': '3', 'conditions': '4',
+
+            'func_coeff_1': '4', 'func_coeff_2': '1', 'func_coeff_3': '-1', 'tendency': 'max',
+
+            'cond_coeff_1_1': '2', 'cond_coeff_1_2': '-3', 'cond_coeff_1_3': '-2',
+            'cond_operator_1': '>=', 'cond_const_1': '5',
+
+            'cond_coeff_2_1': '-4', 'cond_coeff_2_2': '-1', 'cond_coeff_2_3': '2',
+            'cond_operator_2': '>=', 'cond_const_2': '3',
+
+            'cond_coeff_3_1': '3', 'cond_coeff_3_2': '-2', 'cond_coeff_3_3': '-4',
+            'cond_operator_3': '>=', 'cond_const_3': '6',
+
+            'cond_coeff_4_1': '1', 'cond_coeff_4_2': '1', 'cond_coeff_4_3': '1',
+            'cond_operator_4': '<=', 'cond_const_4': '3'
+        })
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
+        self.assertEqual(str(list(resp.context['messages'])[0]),
+                         "The algorithm can't find an optimal solution.")
+
+        def test_post_with_bad_form_data(self):
+            resp = self.post('simplex:solve', data={
+                'variables': '1', 'conditions': '1',
+                'func_coeff_1': '4', 'tendency': 'max',
+                'cond_coeff_1_1': '5', 'cond_operator_1': '<=',
+            })
+            self.assertEqual(resp.status_code, 200)
+            self.assertTemplateUsed(resp, 'profiles/simplex_solve.html')
+            self.assertEqual(len(resp.context['form'].errors), 1)

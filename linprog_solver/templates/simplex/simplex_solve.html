@@ -2,8 +2,11 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-  <form class="form-horizontal" method="post" action="">
+  <form class="form-horizontal" method="post" action="{% url 'simplex:solve' %}">
+    {% csrf_token %}
     {{ form|crispy }}
+    <input type="hidden" name="variables" value="{{ request.GET.variables }}">
+    <input type="hidden" name="conditions" value="{{ request.GET.conditions }}">
     <div class="control-group">
       <div class="controls">
         <button type="submit" class="btn">{% trans "Solve" %}</button>
