@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.views.generic import FormView
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 
 from .exceptions import SimplexInitException
 from .forms import SimplexInitForm, SimplexSolveForm
@@ -32,8 +32,7 @@ class SimplexSolveView(FormView):
             return super().get(request, *args, **kwargs)
         except SimplexInitException as error:
             messages.add_message(request, messages.ERROR, str(error))
-            kwargs.update({'form': None})
-            return self.render_to_response(self.get_context_data(**kwargs))
+            return redirect('simplex:init')
 
     def form_valid(self, form):
         """

@@ -3,11 +3,20 @@ from .base import WebTestBase
 
 class TestSimplex(WebTestBase):
 
+    def test_solve_with_incorrect_get_request_data(self):
+        self.get_literal_url('/simplex/solve/?variables=15&conditions=3')
+        self.assertUrlsEqual(self.current_url, '/simplex/')
+        self.assertTextPresent('The number of variables and conditions should be between 1 and 10')
+
+        self.get_literal_url('/simplex/solve/?variables=number&condtions=5')
+        self.assertUrlsEqual(self.current_url, '/simplex/')
+        self.assertTextPresent('Please define the number of variables and conditions')
+
     def test_solve_linear_problem(self):
         self.get_url('simplex:init')
         self.fill({'#id_variables': '2',
                    '#id_conditions': '4'})
-        self.submit('button[type=submit]')
+        self.submit('input[type=submit]')
 
         self.assertRegex(self.current_url, '/simplex/solve/.+')
         self.assertIn('variables=2', self.current_url)

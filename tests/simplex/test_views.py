@@ -29,17 +29,13 @@ class TestSimplexSolveView(TestCase):
     def test_get_with_incorrect_data_in_get_request(self):
         resp = self.get('simplex:solve', data={'variables': 'should_be_num',
                                                'conditions': 4})
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
-        self.assertEqual(str(list(resp.context['messages'])[0]),
-                         'Please define the number of variables and conditions')
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, self.reverse('simplex:init'))
 
         resp = self.get('simplex:solve', data={'variables': 15,
                                                'conditions': 4})
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
-        self.assertEqual(str(list(resp.context['messages'])[0]),
-                         'The number of variables and conditions should be between 1 and 10')
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, self.reverse('simplex:init'))
 
     def test_post(self):
         resp = self.post('simplex:solve', data={
@@ -85,12 +81,12 @@ class TestSimplexSolveView(TestCase):
         self.assertEqual(str(list(resp.context['messages'])[0]),
                          "The algorithm can't find an optimal solution.")
 
-        def test_post_with_bad_form_data(self):
-            resp = self.post('simplex:solve', data={
-                'variables': '1', 'conditions': '1',
-                'func_coeff_1': '4', 'tendency': 'max',
-                'cond_coeff_1_1': '5', 'cond_operator_1': '<=',
-            })
-            self.assertEqual(resp.status_code, 200)
-            self.assertTemplateUsed(resp, 'profiles/simplex_solve.html')
-            self.assertEqual(len(resp.context['form'].errors), 1)
+    def test_post_with_bad_form_data(self):
+        resp = self.post('simplex:solve', data={
+            'variables': '1', 'conditions': '1',
+            'func_coeff_1': '4', 'tendency': 'max',
+            'cond_coeff_1_1': '5', 'cond_operator_1': '<=',
+        })
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'profiles/simplex_solve.html')
+        self.assertEqual(len(resp.context['form'].errors), 1)

@@ -19,12 +19,14 @@ class SimplexInitForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
-        self.helper.disable_csrf = True
+        self.helper.form_method = 'GET'
+        self.helper.form_action = 'simplex:solve'
+        self.helper.form_class = 'form-horizontal'
         self.helper.layout = Layout(
-            Div(Field('variables'), css_class='col-md-offset-3 col-sm-3 col-md-2 text-center'),
+            Div(Field('variables'), css_class='col-md-offset-5 col-sm-3 col-md-2 text-center'),
             Div(Field('conditions'), css_class='col-sm-3 col-md-2 text-center'),
             Div(css_class='clearfix'),
-            Div(Submit('submit', _('Next step')), css_class='col-md-offset-3'),
+            Submit('submit', _('Next step'), css_class='col-md-offset-5'),
         )
         super().__init__(*args, **kwargs)
 

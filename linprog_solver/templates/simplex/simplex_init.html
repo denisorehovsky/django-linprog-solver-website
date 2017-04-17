@@ -2,7 +2,7 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-  <form class="form-horizontal" method="get" action="{% url 'simplex:solve' %}">
-    {% crispy form %}
-  </form>
+
+  {% crispy form %}
+
 {% endblock %}

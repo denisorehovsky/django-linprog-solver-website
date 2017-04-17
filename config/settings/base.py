@@ -93,6 +93,10 @@ FIXTURE_DIRS = (
     str(APPS_DIR.path('fixtures')),
 )
 
+# MESSAGES CONFIGURATION
+# ------------------------------------------------------------------------------
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
