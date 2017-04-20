@@ -2,15 +2,22 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-  <form class="form-horizontal" method="post" action="{% url 'simplex:solve' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="hidden" name="variables" value="{{ request.GET.variables }}">
-    <input type="hidden" name="conditions" value="{{ request.GET.conditions }}">
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn">{% trans "Solve" %}</button>
-      </div>
-    </div>
-  </form>
+  {% crispy form %}
+{% endblock %}
+
+{% block jquery %}
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('<input>', {
+          type: 'hidden',
+          name: 'variables',
+          value: '{{ request.GET.variables }}'
+        }).appendTo('form');
+        $('<input>', {
+          type: 'hidden',
+          name: 'conditions',
+          value: '{{ request.GET.conditions }}'
+        }).appendTo('form');
+      });
+  </script>
 {% endblock %}

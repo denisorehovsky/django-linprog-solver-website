@@ -80,6 +80,44 @@ class TestSimplexSolveForm(TestCase):
             SimplexSolveForm(variables=5, conditions='11')
         self.assertEqual(str(error.exception), 'The number of variables and conditions should be between 1 and 10')
 
+    def test_get_field_names_of_objective_function_coefficients(self):
+        variables, conditions = 2, 3
+        form = SimplexSolveForm(variables=variables, conditions=conditions)
+        self.assertEqual(form._get_field_names_of_objective_function_coefficients(),
+                         ['func_coeff_1', 'func_coeff_2'])
+
+    def test_get_field_names_of_condition_coefficients(self):
+        variables, conditions = 2, 3
+        form = SimplexSolveForm(variables=variables, conditions=conditions)
+        self.assertEqual(
+            form._get_field_names_of_condition_coefficients(),
+            [['cond_coeff_1_1', 'cond_coeff_1_2'],
+             ['cond_coeff_2_1', 'cond_coeff_2_2'],
+             ['cond_coeff_3_1', 'cond_coeff_3_2']]
+        )
+
+    def test_get_field_names_of_condition_operators(self):
+        variables, conditions = 2, 3
+        form = SimplexSolveForm(variables=variables, conditions=conditions)
+        self.assertEqual(form._get_field_names_of_condition_operators(),
+                         ['cond_operator_1', 'cond_operator_2', 'cond_operator_3'])
+
+    def test_get_field_names_of_condition_constants(self):
+        variables, conditions = 2, 3
+        form = SimplexSolveForm(variables=variables, conditions=conditions)
+        self.assertEqual(form._get_field_names_of_condition_constants(),
+                         ['cond_const_1', 'cond_const_2', 'cond_const_3'])
+
+    def test_get_field_names_of_conditions(self):
+        variables, conditions = 2, 3
+        form = SimplexSolveForm(variables=variables, conditions=conditions)
+        self.assertEqual(
+            list(form._get_field_names_of_conditions()),
+            [(['cond_coeff_1_1', 'cond_coeff_1_2'], 'cond_operator_1', 'cond_const_1'),
+             (['cond_coeff_2_1', 'cond_coeff_2_2'], 'cond_operator_2', 'cond_const_2'),
+             (['cond_coeff_3_1', 'cond_coeff_3_2'], 'cond_operator_3', 'cond_const_3')]
+        )
+
     def test_func_coeff_float_fields(self):
         variables, conditions = 4, 3
         form = SimplexSolveForm(variables=variables, conditions=conditions)

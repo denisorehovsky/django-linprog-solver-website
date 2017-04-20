@@ -1,7 +1,7 @@
-from .base import WebTestBase
+from .base import WebTestBase, SeleniumTestBase
 
 
-class TestSimplex(WebTestBase):
+class SimplexWebTests(WebTestBase):
 
     def test_solve_with_incorrect_get_request_data(self):
         self.get_literal_url('/simplex/solve/?variables=15&conditions=3')
@@ -11,6 +11,9 @@ class TestSimplex(WebTestBase):
         self.get_literal_url('/simplex/solve/?variables=number&condtions=5')
         self.assertUrlsEqual(self.current_url, '/simplex/')
         self.assertTextPresent('Please define the number of variables and conditions')
+
+
+class SimplexSeleniumTests(SeleniumTestBase):
 
     def test_solve_linear_problem(self):
         self.get_url('simplex:init')
@@ -45,7 +48,7 @@ class TestSimplex(WebTestBase):
                    '#id_cond_coeff_4_2': '1',
                    '#id_cond_operator_4': '<=',
                    '#id_cond_const_4': '4'})
-        self.submit('button[type=submit]')
+        self.submit('input[type=submit]')
 
         self.assertRegex(self.current_url, '/simplex/results/')
 

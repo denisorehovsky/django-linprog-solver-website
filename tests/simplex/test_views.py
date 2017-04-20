@@ -88,5 +88,4 @@ class TestSimplexSolveView(TestCase):
             'cond_coeff_1_1': '5', 'cond_operator_1': '<=',
         })
         self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'profiles/simplex_solve.html')
         self.assertEqual(len(resp.context['form'].errors), 1)

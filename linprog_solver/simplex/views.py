@@ -19,10 +19,10 @@ class SimplexSolveView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        variables = (self.request.GET.get('variables', None) or
-                     self.request.POST.get('variables', None))
-        conditions = (self.request.GET.get('conditions', None) or
-                      self.request.POST.get('conditions', None))
+        variables = self.request.GET.get('variables',
+                                         self.request.POST.get('variables'))
+        conditions = self.request.GET.get('conditions',
+                                          self.request.POST.get('conditions'))
         kwargs.update({'variables': variables})
         kwargs.update({'conditions': conditions})
         return kwargs
