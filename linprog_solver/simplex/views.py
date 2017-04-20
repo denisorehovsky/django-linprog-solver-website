@@ -21,10 +21,10 @@ class SimplexSolveView(FormView):
         kwargs = super().get_form_kwargs()
         variables = self.request.GET.get('variables',
                                          self.request.POST.get('variables'))
-        conditions = self.request.GET.get('conditions',
-                                          self.request.POST.get('conditions'))
+        constraints = self.request.GET.get('constraints',
+                                          self.request.POST.get('constraints'))
         kwargs.update({'variables': variables})
-        kwargs.update({'conditions': conditions})
+        kwargs.update({'constraints': constraints})
         return kwargs
 
     def get(self, request, *args, **kwargs):

@@ -15,7 +15,7 @@ class SimplexInitForm(forms.Form):
     variables = forms.ChoiceField(
         initial=3, choices=[(i, i) for i in range(1, 11)]
     )
-    conditions = forms.ChoiceField(
+    constraints = forms.ChoiceField(
         initial=3, choices=[(i, i) for i in range(1, 11)]
     )
 
@@ -28,7 +28,7 @@ class SimplexInitForm(forms.Form):
         self.helper.form_class = 'form-horizontal'
         self.helper.layout = Layout(
             Div(Field('variables'), css_class='col-md-offset-4 col-sm-3 col-md-2 text-center'),
-            Div(Field('conditions'), css_class='col-sm-3 col-md-2 text-center'),
+            Div(Field('constraints'), css_class='col-sm-3 col-md-2 text-center'),
             Div(css_class='clearfix'),
             Submit('submit', _('Next step'), css_class='col-md-offset-4'),
         )
@@ -37,8 +37,8 @@ class SimplexInitForm(forms.Form):
 class SimplexSolveForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
-        self.variables, self.conditions = self._process_variables_and_conditions(
-            kwargs.pop('variables', None), kwargs.pop('conditions', None)
+        self.variables, self.constraints = self._process_variables_and_constraints(
+            kwargs.pop('variables', None), kwargs.pop('constraints', None)
         )
 
         super().__init__(*args, **kwargs)
@@ -60,24 +60,24 @@ class SimplexSolveForm(forms.Form):
             ),
             HTML('<div style="margin-top:75px;"></div>'),
             Fieldset(
-                'Conditions',
-                *[Div(*cond_coeffs, operator_field_name, const_field_name)
-                  for cond_coeffs, operator_field_name, const_field_name in self._get_field_names_of_conditions()]
+                'Constraints',
+                *[Div(*constr_coeffs, operator_field_name, const_field_name)
+                  for constr_coeffs, operator_field_name, const_field_name in self._get_field_names_of_constraints()]
             ),
             HTML('<div style="margin-top:50px;"></div>'),
             Submit('submit', _('Next step')),
         )
 
-    def _process_variables_and_conditions(self, variables: object, conditions: object) -> (int, int):
+    def _process_variables_and_constraints(self, variables: object, constraints: object) -> (int, int):
         try:
-            variables, conditions = int(variables), int(conditions)
+            variables, constraints = int(variables), int(constraints)
         except:
-            raise SimplexInitException(_('Please define the number of variables and conditions'))
+            raise SimplexInitException(_('Please define the number of variables and constraints'))
 
-        if 1 <= variables <= 10 and 1 <= conditions <= 10:
-            return variables, conditions
+        if 1 <= variables <= 10 and 1 <= constraints <= 10:
+            return variables, constraints
         else:
-            raise SimplexInitException(_('The number of variables and conditions should be between 1 and 10'))
+            raise SimplexInitException(_('The number of variables and constraints should be between 1 and 10'))
 
     def _get_field_names_of_objective_function_coefficients(self) -> list:
         """
@@ -88,46 +88,46 @@ class SimplexSolveForm(forms.Form):
         """
         return ['func_coeff_{}'.format(v) for v in range(1, self.variables + 1)]
 
-    def _get_field_names_of_condition_coefficients(self) -> list:
+    def _get_field_names_of_constraint_coefficients(self) -> list:
         """
-        Gets names for the condition coefficient fields
-        depending on the number of `variables` and `conditions`.
+        Gets names for the constraint coefficient fields
+        depending on the number of `variables` and `constraints`.
 
-        :Example: [['cond_coeff_1_1', 'cond_coeff_1_2'],
-                   ['cond_coeff_2_1', 'cond_coeff_2_2']]
+        :Example: [['constr_coeff_1_1', 'constr_coeff_1_2'],
+                   ['constr_coeff_2_1', 'constr_coeff_2_2']]
         """
-        return [['cond_coeff_{}_{}'.format(c, v) for v in range(1, self.variables + 1)]
-                for c in range(1, self.conditions + 1)]
+        return [['constr_coeff_{}_{}'.format(c, v) for v in range(1, self.variables + 1)]
+                for c in range(1, self.constraints + 1)]
 
-    def _get_field_names_of_condition_operators(self) -> list:
+    def _get_field_names_of_constraint_operators(self) -> list:
         """
-        Gets names for the condition operator fields
-        depending on the number of `conditions`.
+        Gets names for the constraint operator fields
+        depending on the number of `constraints`.
 
-        :Example: ['cond_operator_1', 'cond_operator_2']
+        :Example: ['constr_operator_1', 'constr_operator_2']
         """
-        return ['cond_operator_{}'.format(c) for c in range(1, self.conditions + 1)]
+        return ['constr_operator_{}'.format(c) for c in range(1, self.constraints + 1)]
 
-    def _get_field_names_of_condition_constants(self) -> list:
+    def _get_field_names_of_constraint_constants(self) -> list:
         """
-        Gets names for the condition constant fields
-        depending on the number of `conditions`.
+        Gets names for the constraint constant fields
+        depending on the number of `constraints`.
 
-        :Example: ['cond_const_1', 'cond_const_2']
+        :Example: ['constr_const_1', 'constr_const_2']
         """
-        return ['cond_const_{}'.format(c) for c in range(1, self.conditions + 1)]
+        return ['constr_const_{}'.format(c) for c in range(1, self.constraints + 1)]
 
-    def _get_field_names_of_conditions(self):
+    def _get_field_names_of_constraints(self):
         """
-        Gets names for the condition fields
-        depending on the number of `variables` and `conditions`.
+        Gets names for the constraint fields
+        depending on the number of `variables` and `constraints`.
 
-        :Example: ((['cond_coeff_1_1', 'cond_coeff_1_2'], 'cond_operator_1', 'cond_const_1'),
-                   (['cond_coeff_2_1', 'cond_coeff_2_2'], 'cond_operator_2', 'cond_const_2'))
+        :Example: ((['constr_coeff_1_1', 'constr_coeff_1_2'], 'constr_operator_1', 'constr_const_1'),
+                   (['constr_coeff_2_1', 'constr_coeff_2_2'], 'constr_operator_2', 'constr_const_2'))
         """
-        return zip(self._get_field_names_of_condition_coefficients(),
-                   self._get_field_names_of_condition_operators(),
-                   self._get_field_names_of_condition_constants())
+        return zip(self._get_field_names_of_constraint_coefficients(),
+                   self._get_field_names_of_constraint_operators(),
+                   self._get_field_names_of_constraint_constants())
 
     def _set_simplex_form_fields(self):
         for func_field_name in self._get_field_names_of_objective_function_coefficients():
@@ -137,9 +137,9 @@ class SimplexSolveForm(forms.Form):
             initial='max', choices=[('max', 'max'), ('min', 'min')]
         )
 
-        for cond_coeffs, operator_field_name, const_field_name in self._get_field_names_of_conditions():
-            for cond_coeff_field_name in cond_coeffs:
-                self.fields[cond_coeff_field_name] = forms.FloatField()
+        for constr_coeffs, operator_field_name, const_field_name in self._get_field_names_of_constraints():
+            for constr_coeff_field_name in constr_coeffs:
+                self.fields[constr_coeff_field_name] = forms.FloatField()
             self.fields[operator_field_name] = forms.ChoiceField(
                 initial='<=',
                 choices=[('<=', '<='), ('>=', '>='), ('=', '=')]
@@ -153,18 +153,18 @@ class SimplexSolveForm(forms.Form):
         input_data['c'] = [sign * self.cleaned_data[func_field_name]
                            for func_field_name in self._get_field_names_of_objective_function_coefficients()]
 
-        for cond_coeffs, operator_field_name, const_field_name in self._get_field_names_of_conditions():
+        for constr_coeffs, operator_field_name, const_field_name in self._get_field_names_of_constraints():
             operator = self.cleaned_data[operator_field_name]
             if operator == '<=' or operator == '>=':
                 sign = 1 if operator == '<=' else -1
                 input_data['b_ub'].append(sign * self.cleaned_data[const_field_name])
                 input_data['A_ub'].append(
-                    [sign * self.cleaned_data[cond_coeff_field_name] for cond_coeff_field_name in cond_coeffs]
+                    [sign * self.cleaned_data[constr_coeff_field_name] for constr_coeff_field_name in constr_coeffs]
                 )
             else:
                 input_data['b_eq'].append(self.cleaned_data[const_field_name])
                 input_data['A_eq'].append(
-                    [self.cleaned_data[cond_coeff_field_name] for cond_coeff_field_name in cond_coeffs]
+                    [self.cleaned_data[constr_coeff_field_name] for constr_coeff_field_name in constr_coeffs]
                 )
 
         result = linprog(**input_data)
