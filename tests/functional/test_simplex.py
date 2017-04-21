@@ -1,18 +1,6 @@
 from .base import WebTestBase, SeleniumTestBase
 
 
-class SimplexWebTests(WebTestBase):
-
-    def test_solve_with_incorrect_get_request_data(self):
-        self.get_literal_url('/simplex/solve/?variables=15&constraints=3')
-        self.assertUrlsEqual(self.current_url, '/simplex/')
-        self.assertTextPresent('The number of variables and constraints should be between 1 and 10')
-
-        self.get_literal_url('/simplex/solve/?variables=number&constraints=5')
-        self.assertUrlsEqual(self.current_url, '/simplex/')
-        self.assertTextPresent('Please define the number of variables and constraints')
-
-
 class SimplexSeleniumTests(SeleniumTestBase):
 
     def test_solve_linear_problem(self):
@@ -53,3 +41,15 @@ class SimplexSeleniumTests(SeleniumTestBase):
         self.assertRegex(self.current_url, '/simplex/results/')
 
         self.fail('Finish the test!')
+
+
+class SimplexWebTests(WebTestBase):
+
+    def test_solve_with_incorrect_get_request_data(self):
+        self.get_literal_url('/simplex/solve/?variables=15&constraints=3')
+        self.assertUrlsEqual(self.current_url, '/simplex/')
+        self.assertTextPresent('The number of variables and constraints should be between 1 and 10')
+
+        self.get_literal_url('/simplex/solve/?variables=number&constraints=5')
+        self.assertUrlsEqual(self.current_url, '/simplex/')
+        self.assertTextPresent('Please define the number of variables and constraints')

@@ -5,15 +5,9 @@ from linprog_solver.simplex.forms import SimplexInitForm, SimplexSolveForm
 
 class TestSimplexInitView(TestCase):
 
-    def test_returns_correct_status_code(self):
-        self.get_check_200('simplex:init')
-
-    def test_uses_correct_template(self):
+    def test_get(self):
         resp = self.get_check_200('simplex:init')
         self.assertTemplateUsed(resp, 'simplex/simplex_init.html')
-
-    def test_context_data(self):
-        resp = self.get_check_200('simplex:init')
         self.assertIsInstance(resp.context['form'], SimplexInitForm)
 
 
@@ -25,17 +19,6 @@ class TestSimplexSolveView(TestCase):
         self.response_200(resp)
         self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
         self.assertIsInstance(resp.context['form'], SimplexSolveForm)
-
-    def test_get_with_incorrect_data_in_get_request(self):
-        resp = self.get('simplex:solve', data={'variables': 'should_be_num',
-                                               'constraints': 4})
-        self.assertEqual(resp.status_code, 302)
-        self.assertRedirects(resp, self.reverse('simplex:init'))
-
-        resp = self.get('simplex:solve', data={'variables': 15,
-                                               'constraints': 4})
-        self.assertEqual(resp.status_code, 302)
-        self.assertRedirects(resp, self.reverse('simplex:init'))
 
     def test_post(self):
         resp = self.post('simplex:solve', data={
@@ -55,7 +38,7 @@ class TestSimplexSolveView(TestCase):
             'constr_coeff_4_1': '0', 'constr_coeff_4_2': '250', 'constr_coeff_4_3': '0',
             'constr_operator_4': '>=', 'constr_const_4': '500'
         })
-        self.assertEqual(resp.status_code, 200)
+        self.response_200(resp)
         self.assertTemplateUsed(resp, 'simplex/simplex_result.html')
         self.assertIn('result', resp.context)
 
@@ -76,7 +59,7 @@ class TestSimplexSolveView(TestCase):
             'constr_coeff_4_1': '1', 'constr_coeff_4_2': '1', 'constr_coeff_4_3': '1',
             'constr_operator_4': '<=', 'constr_const_4': '3'
         })
-        self.assertEqual(resp.status_code, 200)
+        self.response_200(resp)
         self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
         self.assertEqual(str(list(resp.context['messages'])[0]),
                          "The algorithm can't find an optimal solution.")
@@ -87,5 +70,24 @@ class TestSimplexSolveView(TestCase):
             'func_coeff_1': '4', 'tendency': 'max',
             'constr_coeff_1_1': '5', 'constr_operator_1': '<=',
         })
-        self.assertEqual(resp.status_code, 200)
+        self.response_200(resp)
         self.assertEqual(len(resp.context['form'].errors), 1)
+
+    def test_redirects_if_value_of_variables_and_constraints_are_invalid(self):
+        resp = self.get('simplex:solve', data={'variables': 'should_be_num',
+                                               'constraints': 4})
+        self.response_302(resp)
+        self.assertRedirects(resp, self.reverse('simplex:init'))
+
+        resp = self.get('simplex:solve', data={'variables': 15,
+                                               'constraints': 4})
+        self.response_302(resp)
+        self.assertRedirects(resp, self.reverse('simplex:init'))
+
+        resp = self.post('simplex:solve', data={
+            'variables': '15', 'constraints': '1',
+            'func_coeff_1': '4', 'tendency': 'max',
+            'constr_coeff_1_1': '5', 'constr_operator_1': '<=',
+        })
+        self.response_302(resp)
+        self.assertRedirects(resp, self.reverse('simplex:init'))
