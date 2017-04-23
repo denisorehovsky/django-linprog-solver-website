@@ -92,7 +92,7 @@ class SimplexSolveForm(forms.Form):
                 self.fields[constr_coeff_field_name] = forms.FloatField()
             self.fields[operator_field_name] = forms.ChoiceField(
                 initial='<=',
-                choices=[('<=', '<='), ('>=', '>='), ('=', '=')]
+                choices=[('<=', '<='), ('>=', '>='), ('==', '==')]
             )
             self.fields[const_field_name] = forms.FloatField()
 
@@ -187,7 +187,7 @@ class SimplexSolveForm(forms.Form):
         Gets values of constraints.
 
         :Example: (([1, 2.5], '<=', '25'),
-                   ([2, 5.1], '=', '60'))
+                   ([2, 5.1], '==', '60'))
         """
         return zip(self.get_values_of_constraint_coefficients(),
                    self.get_values_of_constraint_operators(),

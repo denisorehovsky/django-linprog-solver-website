@@ -61,6 +61,7 @@ class TestSimplexSolveView(TestCase):
         })
         self.response_200(resp)
         self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
+        self.assertNotIn('result', resp.context)
         self.assertEqual(str(list(resp.context['messages'])[0]),
                          "The algorithm can't find an optimal solution.")
 

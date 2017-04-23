@@ -38,7 +38,8 @@ class SimplexSeleniumTests(SeleniumTestBase):
                    '#id_constr_const_4': '4'})
         self.submit('input[type=submit]')
 
-        self.assertRegex(self.current_url, '/simplex/results/')
+        self.assertRegex(self.current_url, '/simplex/solve/')
+        self.assertTextPresent('Result')
 
         self.fail('Finish the test!')
 

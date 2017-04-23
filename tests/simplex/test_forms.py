@@ -51,7 +51,7 @@ class TestSimplexSolveForm(TestCase):
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
 
@@ -60,7 +60,7 @@ class TestSimplexSolveForm(TestCase):
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': 'number', 'constr_operator_3': '=',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': 'number', 'constr_operator_3': '==',
         })
         self.assertFalse(form.is_valid())
         self.assertTrue(len(form.errors), 2)
@@ -123,7 +123,7 @@ class TestSimplexSolveForm(TestCase):
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
         self.assertEqual(form.get_values_of_objective_function_coefficients(), [5, 2.5])
@@ -133,7 +133,7 @@ class TestSimplexSolveForm(TestCase):
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
         self.assertEqual(form.get_values_of_constraint_coefficients(),
@@ -144,18 +144,18 @@ class TestSimplexSolveForm(TestCase):
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
         self.assertEqual(form.get_values_of_constraint_operators(),
-                         ['<=', '>=', '='])
+                         ['<=', '>=', '=='])
 
     def test_get_values_of_constraint_constants(self):
         form = SimplexSolveForm(variables=2, constraints=3, data={
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
         self.assertEqual(form.get_values_of_constraint_constants(),
@@ -166,14 +166,14 @@ class TestSimplexSolveForm(TestCase):
             'func_coeff_1': '5', 'func_coeff_2': '2.5', 'tendency': 'max',
             'constr_coeff_1_1': '2', 'constr_coeff_1_2': '1', 'constr_operator_1': '<=', 'constr_const_1': '5',
             'constr_coeff_2_1': '3.5', 'constr_coeff_2_2': '0', 'constr_operator_2': '>=', 'constr_const_2': '1',
-            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_coeff_3_1': '2', 'constr_coeff_3_2': '2', 'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
         self.assertEqual(
             list(form.get_values_of_constraints()),
             [([2, 1], '<=', 5),
              ([3.5, 0], '>=', 1),
-             ([2, 2], '=', 3)]
+             ([2, 2], '==', 3)]
         )
 
     def test_func_coeff_float_fields(self):
@@ -204,7 +204,7 @@ class TestSimplexSolveForm(TestCase):
         self.assertEqual(form.fields['constr_operator_1'].initial, '<=')
         self.assertEqual(
             form.fields['constr_operator_1'].choices,
-            [('<=', '<='), ('>=', '>='), ('=', '=')]
+            [('<=', '<='), ('>=', '>='), ('==', '==')]
         )
 
     def test_constr_const_float_field(self):
@@ -246,7 +246,7 @@ class TestSimplexSolveForm(TestCase):
             'constr_operator_2': '<=', 'constr_const_2': '8',
 
             'constr_coeff_3_1': '1', 'constr_coeff_3_2': '-1', 'constr_coeff_3_3': '-1', 'constr_coeff_3_4': '3',
-            'constr_operator_3': '=', 'constr_const_3': '3',
+            'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
         result = form.solve()

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags mathjax %}
+
+{% block head_extra %}
+  {% mathjax_scripts %}
+{% endblock %}
 
 {% block content %}
-  Objective function: {{ result.fun }}
-  <hr>
-  x: {{ result.x }}
+  <legend>Result</legend>
+  $${{ result }}$$
 {% endblock %}
