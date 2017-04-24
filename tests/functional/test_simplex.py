@@ -40,6 +40,7 @@ class SimplexSeleniumTests(SeleniumTestBase):
 
         self.assertRegex(self.current_url, '/simplex/solve/')
         self.assertTextPresent('Result')
+        self.assertTextPresent('Optimization terminated successfully')
 
         self.fail('Finish the test!')
 

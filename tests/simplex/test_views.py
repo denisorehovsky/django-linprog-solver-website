@@ -41,6 +41,7 @@ class TestSimplexSolveView(TestCase):
         self.response_200(resp)
         self.assertTemplateUsed(resp, 'simplex/simplex_result.html')
         self.assertIn('result', resp.context)
+        self.assertIn('Optimization terminated successfully', resp.context['result'])
 
         resp = self.post('simplex:solve', data={
             'variables': '3', 'constraints': '4',
@@ -60,10 +61,9 @@ class TestSimplexSolveView(TestCase):
             'constr_operator_4': '<=', 'constr_const_4': '3'
         })
         self.response_200(resp)
-        self.assertTemplateUsed(resp, 'simplex/simplex_solve.html')
-        self.assertNotIn('result', resp.context)
-        self.assertEqual(str(list(resp.context['messages'])[0]),
-                         "The algorithm can't find an optimal solution.")
+        self.assertTemplateUsed(resp, 'simplex/simplex_result.html')
+        self.assertIn('result', resp.context)
+        self.assertIn('Problem appears to be infeasible', resp.context['result'])
 
     def test_post_with_bad_form_data(self):
         resp = self.post('simplex:solve', data={
