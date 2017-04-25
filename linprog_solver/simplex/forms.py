@@ -44,9 +44,6 @@ class SimplexSolveForm(forms.Form):
         super().__init__(*args, **kwargs)
         self._set_simplex_form_fields()
 
-        for __, field in self.fields.items():
-            field.label = False
-
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
         self.helper.form_action = 'simplex:solve'
@@ -61,11 +58,15 @@ class SimplexSolveForm(forms.Form):
             HTML('<div style="margin-top:75px;"></div>'),
             Fieldset(
                 'Constraints',
-                *[Div(*constr_coeffs, operator_field_name, const_field_name)
-                  for constr_coeffs, operator_field_name, const_field_name in self._get_field_names_of_constraints()]
+                *[Div(HTML('<strong>CS{}</strong>'.format(i + 1)),
+                      *constr_coeffs, operator_field_name, const_field_name,
+                      HTML('<div style="margin-top:20px;"></div>'))
+                  for i, (constr_coeffs,
+                          operator_field_name,
+                          const_field_name) in enumerate(self._get_field_names_of_constraints())]
             ),
             HTML('<div style="margin-top:50px;"></div>'),
-            Submit('submit', _('Next step')),
+            Submit('submit', _('Solve')),
         )
 
     def _process_variables_and_constraints(self, variables: object, constraints: object) -> (int, int):
@@ -80,21 +81,21 @@ class SimplexSolveForm(forms.Form):
             raise SimplexInitException(_('The number of variables and constraints should be between 1 and 10'))
 
     def _set_simplex_form_fields(self):
-        for func_field_name in self._get_field_names_of_objective_function_coefficients():
-            self.fields[func_field_name] = forms.FloatField()
+        for x, func_field_name in enumerate(self._get_field_names_of_objective_function_coefficients()):
+            self.fields[func_field_name] = forms.FloatField(label='X{}'.format(x + 1))
 
         self.fields['tendency'] = forms.ChoiceField(
             initial='max', choices=[('max', 'max'), ('min', 'min')]
         )
 
         for constr_coeffs, operator_field_name, const_field_name in self._get_field_names_of_constraints():
-            for constr_coeff_field_name in constr_coeffs:
-                self.fields[constr_coeff_field_name] = forms.FloatField()
+            for x, constr_coeff_field_name in enumerate(constr_coeffs):
+                self.fields[constr_coeff_field_name] = forms.FloatField(label='X{}'.format(x + 1))
             self.fields[operator_field_name] = forms.ChoiceField(
                 initial='<=',
                 choices=[('<=', '<='), ('>=', '>='), ('==', '==')]
             )
-            self.fields[const_field_name] = forms.FloatField()
+            self.fields[const_field_name] = forms.FloatField(label='')
 
     def _get_field_names_of_objective_function_coefficients(self) -> list:
         """

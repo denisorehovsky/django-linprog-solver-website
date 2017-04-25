@@ -182,6 +182,7 @@ class TestSimplexSolveForm(TestCase):
         for i in range(1, variables + 1):
             key = 'func_coeff_{}'.format(i)
             self.assertIsInstance(form.fields[key], FloatField)
+            self.assertEqual(form.fields[key].label, 'X{}'.format(i))
 
     def test_tendency_choice_field(self):
         form = SimplexSolveForm(variables=4, constraints=3)
@@ -198,6 +199,7 @@ class TestSimplexSolveForm(TestCase):
             for k in range(1, variables + 1):
                 key = 'constr_coeff_{}_{}'.format(i, k)
                 self.assertIsInstance(form.fields[key], FloatField)
+                self.assertEqual(form.fields[key].label, 'X{}'.format(k))
 
     def test_constr_operator_field(self):
         form = SimplexSolveForm(variables=4, constraints=1)
@@ -213,6 +215,7 @@ class TestSimplexSolveForm(TestCase):
         for i in range(1, constraints + 1):
             key = 'constr_const_{}'.format(i)
             self.assertIsInstance(form.fields[key], FloatField)
+            self.assertEqual(form.fields[key].label, '')
 
     def test_solve(self):
         form = SimplexSolveForm(variables=3, constraints=4, data={
