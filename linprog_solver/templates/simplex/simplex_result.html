@@ -1,8 +1,11 @@
 {% extends "base.html" %}
-{% load i18n crispy_forms_tags mathjax %}
+{% load i18n crispy_forms_tags %}
 
 {% block head_extra %}
-  {% mathjax_scripts %}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/javascript">
+    MathJax.Hub.Config({displayAlign: "left"});
+  </script>
 {% endblock %}
 
 {% block content %}

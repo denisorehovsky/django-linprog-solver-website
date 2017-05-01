@@ -49,7 +49,6 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
-    'django_mathjax',
     'wkhtmltopdf',
     'allauth',  # registration
     'allauth.account',  # registration
@@ -266,12 +265,6 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
-
-# MATHJAX
-MATHJAX_ENABLED = True
-MATHJAX_CONFIG_DATA = {
-    'displayAlign': 'left'
-}
 
 # WKHTMLTOPDF
 WKHTMLTOPDF_CMD = '/usr/bin/wkhtmltopdf.sh'
