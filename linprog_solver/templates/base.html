@@ -32,47 +32,45 @@
 
   <body>
 
-    <div class="m-b-1">
-      <nav class="navbar navbar-dark navbar-static-top bg-inverse">
-        <div class="container">
-          <a class="navbar-brand" href="/">Linprog Solver</a>
+    <div class="wrapper">
+      <div class="m-b-1">
+        <nav class="navbar navbar-dark navbar-static-top bg-inverse">
+          <div class="container">
+            <a class="navbar-brand" href="/">Linprog Solver</a>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="navbar-toggleable-xs" id="bs-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'home' %}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'simplex:init' %}">Simplex</a>
-              </li>
-            </ul>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="navbar-toggleable-xs" id="bs-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'simplex:init' %}">Simplex</a>
+                </li>
+              </ul>
+            </div>
+
           </div>
+        </nav>
+      </div>
 
-        </div>
-      </nav>
-    </div>
+      <div class="container">
 
-    <div style="margin-top:100px;"></div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
 
-    <div class="container">
+        {% block content %}
+          <p>Use this document as a way to quick start any new project.</p>
+        {% endblock content %}
 
-      {% if messages %}
-          {% for message in messages %}
-              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
-          {% endfor %}
-      {% endif %}
-
-      {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
-      {% endblock content %}
-
-    </div> <!-- /container -->
+      </div> <!-- /container -->
+    </div> <!-- /wrapper -->
 
     <footer class="footer">
-      <div class="container">
-        <div align="center" class="text-muted">Денис Ореховский © 2017</div>
-      </div>
+      <div class="text-muted">Денис Ореховский © 2017</div>
     </footer><!-- /footer -->
 
     {% block modal %}{% endblock modal %}
