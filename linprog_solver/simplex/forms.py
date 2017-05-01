@@ -58,7 +58,7 @@ class SimplexSolveForm(forms.Form):
             HTML('<div style="margin-top:75px;"></div>'),
             Fieldset(
                 'Constraints',
-                *[Div(HTML('<strong>CS{}</strong>'.format(i + 1)),
+                *[Div(HTML('<p><strong>CS{}</strong></p>'.format(i + 1)),
                       *constr_coeffs, operator_field_name, const_field_name,
                       HTML('<div style="margin-top:20px;"></div>'))
                   for i, (constr_coeffs,
