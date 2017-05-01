@@ -50,6 +50,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
     'django_mathjax',
+    'wkhtmltopdf',
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
@@ -272,5 +273,9 @@ MATHJAX_CONFIG_DATA = {
     'displayAlign': 'left'
 }
 
-# Your common stuff: Below this line define 3rd party library settings
-# ------------------------------------------------------------------------------
+# WKHTMLTOPDF
+WKHTMLTOPDF_CMD = '/usr/bin/wkhtmltopdf.sh'
+WKHTMLTOPDF_CMD_OPTIONS = {
+    'load-error-handling': 'ignore',
+    'javascript-delay': 3000,
+}

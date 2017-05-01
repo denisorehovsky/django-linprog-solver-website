@@ -42,6 +42,8 @@ class SimplexSeleniumTests(SeleniumTestBase):
         self.assertTextPresent('Result')
         self.assertTextPresent('Optimization terminated successfully')
 
+        self.is_element_displayed('input[type=submit].download-pdf')
+
         self.fail('Finish the test!')
 
 

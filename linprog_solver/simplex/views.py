@@ -1,5 +1,7 @@
 from django.views.generic import FormView
 
+from wkhtmltopdf.views import PDFTemplateView
+
 from .mixins import SimplexInitMixin, SimplexSolveActionMixin
 from .forms import SimplexInitForm, SimplexSolveForm
 
@@ -22,3 +24,12 @@ class SimplexSolveView(SimplexSolveActionMixin, SimplexInitMixin, FormView):
         kwargs.update({'variables': variables})
         kwargs.update({'constraints': constraints})
         return kwargs
+
+
+class SimplexPDFView(PDFTemplateView):
+    template_name = 'simplex/simplex_pdf.html'
+    filename = 'linprog.pdf'
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({'result': self.request.GET.get('result')})
+        return super().get_context_data(**kwargs)

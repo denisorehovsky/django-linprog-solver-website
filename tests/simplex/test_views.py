@@ -92,3 +92,12 @@ class TestSimplexSolveView(TestCase):
         })
         self.response_302(resp)
         self.assertRedirects(resp, self.reverse('simplex:init'))
+
+
+class TestSimplexPDFView(TestCase):
+
+    def test_get(self):
+        resp = self.get('simplex:pdf', data={'result': 'hello world'})
+        self.response_200(resp)
+        self.assertTemplateUsed(resp, 'simplex/simplex_pdf.html')
+        self.assertIn('result', resp.context)

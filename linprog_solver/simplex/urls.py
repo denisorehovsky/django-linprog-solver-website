@@ -15,4 +15,9 @@ urlpatterns = [
         view=views.SimplexSolveView.as_view(),
         name='solve'
     ),
+    url(
+        regex=r'^pdf/$',
+        view=views.SimplexPDFView.as_view(),
+        name='pdf'
+    ),
 ]

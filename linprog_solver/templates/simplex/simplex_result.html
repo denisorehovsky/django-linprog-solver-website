@@ -8,4 +8,11 @@
 {% block content %}
   <legend>Result</legend>
   $${{ result }}$$
+
+  <div style="margin-top:35px;"></div>
+
+  <form method="get" action="{% url 'simplex:pdf' %}">
+    <input type="hidden" name="result" value="{{ result }}">
+    <input class="btn btn-danger download-pdf" type="submit" value="{% trans 'Download PDF' %}">
+  </form>
 {% endblock %}
