@@ -57,6 +57,7 @@ THIRD_PARTY_APPS = [
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
+    'linprog_solver.core.apps.CoreConfig',
     'linprog_solver.users.apps.UsersConfig',
     'linprog_solver.simplex.apps.SimplexConfig',
 ]
