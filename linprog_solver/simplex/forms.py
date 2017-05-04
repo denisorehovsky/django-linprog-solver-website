@@ -4,7 +4,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, Submit
+from crispy_forms.layout import Layout, Fieldset, Div, HTML, Submit
 
 from scipy.optimize import linprog
 
@@ -13,10 +13,12 @@ from .exceptions import SimplexInitException
 
 class SimplexInitForm(forms.Form):
     variables = forms.ChoiceField(
-        initial=3, choices=[(i, i) for i in range(1, 11)]
+        initial=3, choices=[(i, i) for i in range(1, 11)],
+        label=_('Variables number')
     )
     constraints = forms.ChoiceField(
-        initial=3, choices=[(i, i) for i in range(1, 11)]
+        initial=3, choices=[(i, i) for i in range(1, 11)],
+        label=_('Constraints number')
     )
 
     def __init__(self, *args, **kwargs):
@@ -26,11 +28,13 @@ class SimplexInitForm(forms.Form):
         self.helper.form_method = 'GET'
         self.helper.form_action = 'simplex:solve'
         self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-md-4'
+        self.helper.field_class = 'col-md-8'
         self.helper.layout = Layout(
-            Div(Field('variables'), css_class='col-md-offset-4 col-sm-3 col-md-2 text-center'),
-            Div(Field('constraints'), css_class='col-sm-3 col-md-2 text-center'),
-            Div(css_class='clearfix'),
-            Submit('submit', _('Next step'), css_class='col-md-offset-4'),
+            'variables',
+            'constraints',
+            HTML('<div style="margin-top:50px;"></div>'),
+            Submit('submit', _('Next step')),
         )
 
 
@@ -51,14 +55,14 @@ class SimplexSolveForm(forms.Form):
         self.helper.field_template = 'bootstrap4/layout/inline_field.html'
         self.helper.layout = Layout(
             Fieldset(
-                'Objective function',
+                _('Objective function'),
                 *self._get_field_names_of_objective_function_coefficients(),
                 'tendency',
             ),
             HTML('<div style="margin-top:75px;"></div>'),
             Fieldset(
-                'Constraints',
-                *[Div(HTML('<p><strong>CS{}</strong></p>'.format(i + 1)),
+                _('Constraints'),
+                *[Div(HTML('<p><strong>{}:</strong></p>'.format(i + 1)),
                       *constr_coeffs, operator_field_name, const_field_name,
                       HTML('<div style="margin-top:20px;"></div>'))
                   for i, (constr_coeffs,

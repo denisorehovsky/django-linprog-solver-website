@@ -27,6 +27,7 @@ class TestSimplexInitForm(TestCase):
 
     def test_variables_choice_field(self):
         form = SimplexInitForm()
+        self.assertEqual(form.fields['variables'].label, 'Variables number')
         self.assertEqual(form.fields['variables'].initial, 3)
         self.assertEqual(
             form.fields['variables'].choices,
@@ -36,6 +37,7 @@ class TestSimplexInitForm(TestCase):
 
     def test_constraints_choice_field(self):
         form = SimplexInitForm()
+        self.assertEqual(form.fields['constraints'].label, 'Constraints number')
         self.assertEqual(form.fields['constraints'].initial, 3)
         self.assertEqual(
             form.fields['constraints'].choices,
