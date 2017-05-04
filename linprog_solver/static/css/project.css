@@ -56,6 +56,11 @@ body {
   min-height: 100%;
 }
 
+.language-form {
+  margin: 12.5px 6px;
+  margin-left: 10px;
+}
+
 .m-b-1 {
   margin-bottom: 100px;
 }

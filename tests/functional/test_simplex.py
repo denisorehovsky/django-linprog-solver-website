@@ -46,6 +46,17 @@ class SimplexSeleniumTests(SeleniumTestBase):
 
         self.fail('Finish the test!')
 
+    def test_languages(self):
+        self.get_url('home')
+        self.assertTextPresent('Home')
+
+        self.is_element_present('select[name=language]')
+        self.assertEqual(self.value('select[name=language]'), 'en-us')
+
+        self.fill_by_text({'select[name=language]': 'ru'})
+        self.wait_for_page_load()
+        self.assertTextPresent('Главная')
+
 
 class SimplexWebTests(WebTestBase):
 

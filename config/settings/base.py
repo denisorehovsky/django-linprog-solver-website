@@ -15,6 +15,10 @@ import environ
 ROOT_DIR = environ.Path(__file__) - 3  # (linprog_solver/config/settings/base.py - 3 = linprog_solver/)
 APPS_DIR = ROOT_DIR.path('linprog_solver')
 
+LOCALE_PATHS = (
+    str(APPS_DIR.path('locale')),
+)
+
 # Load operating system environment variables and then prepare to use them
 env = environ.Env()
 
@@ -70,6 +74,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,6 +138,11 @@ TIME_ZONE = 'UTC'
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = (
+    ('en-us', 'en'),
+    ('ru', 'ru'),
+)
+
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 
@@ -175,7 +185,8 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                # Your stuff: custom template context processors go here
+
+                'linprog_solver.core.context_processors.linprog_solver_processor',
             ],
         },
     },

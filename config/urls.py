@@ -14,6 +14,9 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
 
+    # Languages
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+
     # User management
     url(r'^users/', include('linprog_solver.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),

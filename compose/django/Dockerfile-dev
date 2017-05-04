@@ -2,13 +2,14 @@ FROM python:3.5
 
 ENV PYTHONUNBUFFERED 1
 
-# Install wkhtmltopdf and dependencies
+# Install dependencies
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get -y install build-essential xorg libssl-dev libxrender-dev xvfb wget && \
+    apt-get -y install build-essential xorg libssl-dev libxrender-dev xvfb gettext wget && \
     rm -rf /var/lib/apt/lists/*
 
+# Install wkhtmltopdf
 RUN wget https://bitbucket.org/wkhtmltopdf/wkhtmltopdf/downloads/wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb && \
     dpkg -i wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb && \
     rm wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb

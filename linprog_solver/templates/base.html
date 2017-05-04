@@ -44,12 +44,26 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="navbar-toggleable-xs" id="bs-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
                   </li>
+
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'simplex:init' %}">Simplex</a>
+                    <a class="nav-link" href="{% url 'simplex:init' %}">{% trans 'Simplex' %}</a>
                   </li>
+
+                  <li class="nav-item">
+                    <form action="/i18n/setlang/" method="post" class="language-form">
+                      {% csrf_token %}
+                      <select name="language" class="form-control" onchange="this.form.submit()">
+                        {% for lang in LANGUAGES %}
+                          <option value="{{ lang.0 }}" {% if lang.0 == request.LANGUAGE_CODE %}selected{% endif %}>{{ lang.1 }}</option>
+                        {% endfor %}
+                      </select>
+                    </form>
+                  </li>
+
                 </ul>
               </div>
             </div>
