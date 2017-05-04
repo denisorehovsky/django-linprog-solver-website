@@ -49,6 +49,10 @@ html {
   box-sizing: inherit;
 }
 
+.asteriskField {
+    display: none;
+}
+
 body {
   position: relative;
   margin: 0;
