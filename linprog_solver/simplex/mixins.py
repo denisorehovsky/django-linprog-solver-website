@@ -1,6 +1,6 @@
 from django.contrib import messages
 
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect, render
 
 from .exceptions import SimplexInitException
 from .utils import generate_latex_result
@@ -30,4 +30,6 @@ class SimplexSolveActionMixin:
             form.get_values_of_constraints(),
             solution,
         )
-        return render_to_response(self.template_name_success, {'result': latex_result})
+        return render(self.request, self.template_name_success, {
+            'result': latex_result,
+        })
