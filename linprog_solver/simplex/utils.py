@@ -1,6 +1,48 @@
+from typing import Any, Dict, Iterable
+
 import sympy
 
 from .constants import STATUS
+
+
+class OptimizeSolution:
+
+    def __init__(self):
+        self.solution_steps = []
+
+    def save_step(self, xk: Iterable[float], **kwargs: Dict[Any, Any]) -> None:
+        """
+        Saves step information to `solution_steps` before each iteration
+        and after the final iteration of the simplex algorithm.
+
+        :param xk: The current solution vector.
+        :param tableau: The current tableau of the simplex algorithm.
+        :param phase: The current Phase of the simplex algorithm (1 or 2).
+        :param nit: The current iteration number.
+        :param pivot: The index of the tableau selected as the next pivot,
+                      or nan if no pivot exists.
+        :param basis: A list of the current basic variables.
+        :param complete: True if the simplex algorithm has completed
+                         (and this is the final call to `save_step`),
+                         otherwise False.
+        """
+        tableau = kwargs['tableau']  # type: Iterable[float]
+        nit = kwargs['nit']  # type: int
+        pivrow, pivcol = kwargs['pivot']  # type: int, int
+        phase = kwargs['phase']  # type: int
+        basis = kwargs['basis']  # type: Iterable[int]
+        complete = kwargs['complete']  # type: bool
+
+        self.solution_steps.append({
+            'xk': xk,
+            'tableau': tableau,
+            'nit': nit,
+            'pivrow': pivrow,
+            'pivcol': pivcol,
+            'phase': phase,
+            'basis': basis,
+            'complete': complete,
+        })
 
 
 def generate_latex_result(function_coefficients, tendency, constraints, result):
