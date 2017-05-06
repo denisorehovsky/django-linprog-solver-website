@@ -137,7 +137,7 @@ class SimplexSolveForm(forms.Form):
         return [self.cleaned_data[const_field_name]
                 for const_field_name in self._get_field_names_of_constraint_constants()]
 
-    def get_values_of_constraints(self) -> Iterator[Tuple[List[int], str, int]]:
+    def get_values_of_constraints(self) -> Iterator[Tuple[List[float], str, float]]:
         """
         Gets values of constraints.
 
