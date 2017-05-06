@@ -42,6 +42,8 @@ class TestSimplexSolveView(TestCase):
         self.assertTemplateUsed(resp, 'simplex/simplex_result.html')
         self.assertIn('result', resp.context)
         self.assertIn('Optimization terminated successfully', resp.context['result'])
+        self.assertIn('solution_steps', resp.context)
+        self.assertIsInstance(resp.context['solution_steps'], list)
 
         resp = self.post('simplex:solve', data={
             'variables': '3', 'constraints': '4',
@@ -64,6 +66,8 @@ class TestSimplexSolveView(TestCase):
         self.assertTemplateUsed(resp, 'simplex/simplex_result.html')
         self.assertIn('result', resp.context)
         self.assertIn('Problem appears to be infeasible', resp.context['result'])
+        self.assertIn('solution_steps', resp.context)
+        self.assertIsInstance(resp.context['solution_steps'], list)
 
     def test_post_with_bad_form_data(self):
         resp = self.post('simplex:solve', data={
