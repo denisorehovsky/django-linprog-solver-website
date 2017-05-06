@@ -1,5 +1,7 @@
 from typing import Any, Dict, Iterable
 
+from django.utils.translation import ugettext_lazy as _
+
 import sympy
 
 from .constants import STATUS
@@ -25,6 +27,7 @@ class OptimizeSolution:
         :param complete: True if the simplex algorithm has completed
                          (and this is the final call to `save_step`),
                          otherwise False.
+        :param status: The message that describes current iteration.
         """
         tableau = kwargs['tableau']  # type: Iterable[float]
         nit = kwargs['nit']  # type: int
@@ -32,6 +35,13 @@ class OptimizeSolution:
         phase = kwargs['phase']  # type: int
         basis = kwargs['basis']  # type: Iterable[int]
         complete = kwargs['complete']  # type: bool
+
+        if complete:
+            status = _('Iteration Complete - Phase {0:d}').format(phase)
+        elif nit == 0:
+            status = _('Initial Tableau - Phase {0:d}').format(phase)
+        else:
+            status = _('Iteration {0:d} - Phase {1:d}').format(nit, phase)
 
         self.solution_steps.append({
             'xk': xk,
@@ -42,6 +52,7 @@ class OptimizeSolution:
             'phase': phase,
             'basis': basis,
             'complete': complete,
+            'status': status,
         })
 
 
