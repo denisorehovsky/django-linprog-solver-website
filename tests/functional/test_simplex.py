@@ -44,7 +44,7 @@ class SimplexSeleniumTests(SeleniumTestBase):
 
         self.is_element_displayed('input[type=submit].download-pdf')
 
-        self.fail('Finish the test!')
+        self.assertTextPresent('Solution')
 
     def test_languages(self):
         self.get_url('home')

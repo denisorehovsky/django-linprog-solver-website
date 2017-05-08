@@ -1,0 +1,17 @@
+{% load simplex_extras %}
+
+
+{% for step in solution_steps %}
+  <mark>{{ step.status }}</mark>
+  <table class="table table-responsive" style="table-layout: fixed;">
+    <tbody>
+      {% for row in step.tableau %}
+          <tr class="{% if step.pivrow == forloop.counter0 %}bg-success{% endif %}">
+            {% for element in row %}
+              <td {% if step.pivcol == forloop.counter0 %}class="bg-danger"{% endif %} align="center">{{ element }}</td>
+            {% endfor %}
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
