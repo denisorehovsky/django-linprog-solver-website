@@ -2,9 +2,24 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-  <div class="col-md-3"></div>
-  <div class="col-md-6">
-    {% crispy form %}
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <blockquote>
+        {% trans 'Simplex method is a popular algorithm for solving linear programming.' %}<br />
+
+        {% trans 'Linear programming (also called linear optimization) is a method to achieve the best outcome (such as maximum profit or lowest cost) in a mathematical model whose requirements are represented by linear relationships.' %}
+      </blockquote>
+    </div>
   </div>
-  <div class="col-md-3"></div>
+
+  <div style="margin-top:100px"></div>
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      {% crispy form %}
+    </div>
+    <div class="col-md-3"></div>
+  </div>
 {% endblock %}

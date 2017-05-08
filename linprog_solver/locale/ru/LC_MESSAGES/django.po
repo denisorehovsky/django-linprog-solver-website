@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-08 08:47+0000\n"
+"POT-Creation-Date: 2017-05-08 09:56+0000\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,6 +82,24 @@ msgstr "Симплекс"
 #: linprog_solver/templates/base.html:98
 msgid "Denis Orehovsky"
 msgstr "Денис Ореховский"
+
+#: linprog_solver/templates/simplex/simplex_init.html:9
+msgid "Simplex method is a popular algorithm for solving linear programming."
+msgstr ""
+"Симплекс-метод - популярный алгоритм для решения задачи линейного "
+"программирования."
+
+#: linprog_solver/templates/simplex/simplex_init.html:11
+msgid ""
+"Linear programming (also called linear optimization) is a method to achieve "
+"the best outcome (such as maximum profit or lowest cost) in a mathematical "
+"model whose requirements are represented by linear relationships."
+msgstr ""
+"Линейное программирование — математическая дисциплина, посвящённая теории "
+"и методам решения экстремальных задач "
+"(таких как нахождение максимальной прибыли или наименьшей стоимости), "
+"задаваемых системами линейных уравнений и неравенств."
+
 
 #: linprog_solver/templates/simplex/simplex_result.html:12
 msgid "Result"
