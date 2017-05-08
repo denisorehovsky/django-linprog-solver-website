@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-06 14:34+0000\n"
+"POT-Creation-Date: 2017-05-08 08:47+0000\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,9 +83,17 @@ msgstr "Симплекс"
 msgid "Denis Orehovsky"
 msgstr "Денис Ореховский"
 
-#: linprog_solver/templates/simplex/simplex_result.html:24
+#: linprog_solver/templates/simplex/simplex_result.html:12
+msgid "Result"
+msgstr "Результат"
+
+#: linprog_solver/templates/simplex/simplex_result.html:19
 msgid "Download PDF"
 msgstr "Скачать PDF"
+
+#: linprog_solver/templates/simplex/simplex_result.html:24
+msgid "Solution"
+msgstr "Решение"
 
 #: linprog_solver/users/models.py:16
 msgid "Name of User"

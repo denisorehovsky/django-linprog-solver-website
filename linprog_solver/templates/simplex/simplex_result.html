@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-  <legend>Result</legend>
+  <legend>{% trans 'Result' %}</legend>
   $${{ result }}$$
 
   <div style="margin-top:50px;"></div>
@@ -21,6 +21,6 @@
 
   <div style="margin-top:50px;"></div>
 
-  <legend>Solution</legend>
+  <legend>{% trans 'Solution' %}</legend>
   {% show_solution_steps solution_steps %}
 {% endblock %}
