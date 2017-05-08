@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-04 14:36+0000\n"
+"POT-Creation-Date: 2017-05-06 14:34+0000\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,37 +24,52 @@ msgstr "Система ограничений несовместна"
 msgid "Problem appears to be unbounded"
 msgstr "Функция в области допустимых решений задачи не ограничена"
 
-#: linprog_solver/simplex/forms.py:17
+#: linprog_solver/simplex/forms.py:19
 msgid "Variables number"
 msgstr "Количество переменных"
 
-#: linprog_solver/simplex/forms.py:21
+#: linprog_solver/simplex/forms.py:23
 msgid "Constraints number"
 msgstr "Количество ограничений"
 
-#: linprog_solver/simplex/forms.py:37
+#: linprog_solver/simplex/forms.py:39
 msgid "Next step"
 msgstr "Следующий шаг"
 
-#: linprog_solver/simplex/forms.py:58
+#: linprog_solver/simplex/forms.py:60
 msgid "Objective function"
 msgstr "Целевая функция"
 
-#: linprog_solver/simplex/forms.py:64
+#: linprog_solver/simplex/forms.py:66
 msgid "Constraints"
 msgstr "Ограничения"
 
-#: linprog_solver/simplex/forms.py:73
+#: linprog_solver/simplex/forms.py:75
 msgid "Solve"
 msgstr "Решить"
 
-#: linprog_solver/simplex/forms.py:80
+#: linprog_solver/simplex/forms.py:161
 msgid "Please define the number of variables and constraints"
 msgstr "Укажите количество переменных и ограничений"
 
-#: linprog_solver/simplex/forms.py:85
+#: linprog_solver/simplex/forms.py:166
 msgid "The number of variables and constraints should be between 1 and 10"
 msgstr "Количество переменных и ограничений должно быть от 1 до 10"
+
+#: linprog_solver/simplex/utils.py:40
+#, python-brace-format
+msgid "Iteration Complete - Phase {0:d}"
+msgstr "Итерирование закончено - Фаза {0:d}"
+
+#: linprog_solver/simplex/utils.py:42
+#, python-brace-format
+msgid "Initial Tableau - Phase {0:d}"
+msgstr "Начальная таблица - Фаза {0:d}"
+
+#: linprog_solver/simplex/utils.py:44
+#, python-brace-format
+msgid "Iteration {0:d} - Phase {1:d}"
+msgstr "Итерация {0:d} - Фаза {1:d}"
 
 #: linprog_solver/templates/base.html:49
 msgid "Home"
@@ -68,7 +83,7 @@ msgstr "Симплекс"
 msgid "Denis Orehovsky"
 msgstr "Денис Ореховский"
 
-#: linprog_solver/templates/simplex/simplex_result.html:19
+#: linprog_solver/templates/simplex/simplex_result.html:24
 msgid "Download PDF"
 msgstr "Скачать PDF"
 

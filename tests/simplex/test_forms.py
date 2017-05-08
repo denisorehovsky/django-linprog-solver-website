@@ -6,6 +6,7 @@ from linprog_solver.simplex.exceptions import SimplexInitException
 from linprog_solver.simplex.forms import (
     SimplexInitForm, SimplexSolveForm
 )
+from linprog_solver.simplex.utils import OptimizeSolution
 
 
 class TestSimplexInitForm(TestCase):
@@ -236,9 +237,10 @@ class TestSimplexSolveForm(TestCase):
             'constr_operator_4': '>=', 'constr_const_4': '500'
         })
         self.assertTrue(form.is_valid())
-        result = form.solve()
+        solution, result = form.solve()
         self.assertTrue(result['fun'], 23060.0)
         self.assertTrue(list(result['x']), [56.0, 2, 12.8])
+        self.assertIsInstance(solution, OptimizeSolution)
 
         form = SimplexSolveForm(variables=3, constraints=3, data={
             'func_coeff_1': '2', 'func_coeff_2': '1', 'func_coeff_3': '1', 'func_coeff_4': '4',
@@ -254,6 +256,7 @@ class TestSimplexSolveForm(TestCase):
             'constr_operator_3': '==', 'constr_const_3': '3',
         })
         self.assertTrue(form.is_valid())
-        result = form.solve()
+        solution, result = form.solve()
         self.assertTrue(result['fun'], 7.0)
         self.assertTrue(list(result['x']), [10 / 3, 0, 1 / 3])
+        self.assertIsInstance(solution, OptimizeSolution)

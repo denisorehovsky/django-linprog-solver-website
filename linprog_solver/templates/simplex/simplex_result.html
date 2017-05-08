@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags simplex_extras %}
 
 {% block head_extra %}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -12,10 +12,15 @@
   <legend>Result</legend>
   $${{ result }}$$
 
-  <div style="margin-top:35px;"></div>
+  <div style="margin-top:50px;"></div>
 
   <form method="get" action="{% url 'simplex:pdf' %}">
     <input type="hidden" name="result" value="{{ result }}">
     <input class="btn btn-danger download-pdf" type="submit" value="{% trans 'Download PDF' %}">
   </form>
+
+  <div style="margin-top:50px;"></div>
+
+  <legend>Solution</legend>
+  {% show_solution_steps solution_steps %}
 {% endblock %}

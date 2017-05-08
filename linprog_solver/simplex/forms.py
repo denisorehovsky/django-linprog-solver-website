@@ -10,6 +10,7 @@ from crispy_forms.layout import Layout, Fieldset, Div, HTML, Submit
 import scipy.optimize as opt
 
 from .exceptions import SimplexInitException
+from .utils import OptimizeSolution
 
 
 class SimplexInitForm(forms.Form):
@@ -76,7 +77,7 @@ class SimplexSolveForm(forms.Form):
 
     # Public API
 
-    def solve(self) -> opt.OptimizeResult:
+    def solve(self) -> Tuple[OptimizeSolution, opt.OptimizeResult]:
         input_data = defaultdict(list)
 
         sign = 1 if self.cleaned_data['tendency'] == 'min' else -1
@@ -94,11 +95,12 @@ class SimplexSolveForm(forms.Form):
                 input_data['b_eq'].append(const)
                 input_data['A_eq'].append(constr_coeffs)
 
-        result = opt.linprog(**input_data)
+        solution = OptimizeSolution()
+        result = opt.linprog(**input_data, callback=solution.save_step)
         if self.cleaned_data['tendency'] == 'max':
             result['fun'] = -result['fun']
 
-        return result
+        return solution, result
 
     def get_values_of_objective_function_coefficients(self) -> List[float]:
         """
