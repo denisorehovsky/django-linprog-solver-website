@@ -1,8 +1,8 @@
 ## Linprog Solver
 
-This website solves linear programming problem via a two-phase simplex algorithm using [scipy](https://github.com/scipy/scipy) library.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-:License: MIT
+This website solves linear programming problem via a two-phase simplex algorithm using [scipy](https://github.com/scipy/scipy) library.
 
 
 ## Live (screenshots)
