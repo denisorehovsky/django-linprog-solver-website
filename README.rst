@@ -1,7 +1,7 @@
 Linprog Solver
 ==============
 
-Linear Programming Solver
+This website solves linear programming problem via a two-phase simplex algorithm using [scipy](https://github.com/scipy/scipy) library.
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
@@ -11,35 +11,30 @@ Linear Programming Solver
 :License: MIT
 
 
-Basic Commands
---------------
+Live (screenshots)
+-------
+![Screenshot of my shell prompt](https://raw.githubusercontent.com/apirobot/django-linprog-solver-website/master/screens.png)
 
-Setting Up Your Users
-^^^^^^^^^^^^^^^^^^^^^
 
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+How to run locally
+-------
 
-* To create an **superuser account**, use this command::
+Installing and running this website is very simple. Clone this repo, and then simply run:
 
-    $ python manage.py createsuperuser
+```zsh
+➜  ~ docker-compose -f dev.yml build
+➜  ~ docker-compose -f dev.yml up
+```
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+That's all. Isn't Docker amazing?
 
-Test coverage
-^^^^^^^^^^^^^
-
-To run the tests, check your test coverage, and generate an HTML coverage report::
-
-    $ coverage run manage.py test
-    $ coverage html
-    $ open htmlcov/index.html
 
 Running tests with py.test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
-
-  $ py.test
+```zsh
+➜  ~ py.test
+```
 
 
 Docker
